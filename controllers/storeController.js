@@ -91,3 +91,14 @@ exports.updateStore = async (req, res) => {
 	res.redirect(`/stores/${store.id}/edit`);
 	// 2. Redirect to store and flash
 };
+
+exports.getStoreBySlug = async (req, res, next) => {
+	const { slug } = req.params;
+	const store = await Store.findOne({ slug });
+
+	if (!store) {
+		return next();
+	}
+
+	res.render('store', { store, title: store.name });
+};
